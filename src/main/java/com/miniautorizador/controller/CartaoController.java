@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.miniautorizador.model.Cartao;
+import com.miniautorizador.model.TransactioMessageEnum;
 import com.miniautorizador.service.CatraoService;
 
 @RestController
@@ -29,12 +30,12 @@ public class CartaoController {
 	@GetMapping
 	public ResponseEntity<?> getCartao(@PathVariable("numeroCartao") Long numeroCartao) {
 		try {
-			LOGGER.info("Cartao findById..: " + numeroCartao);
+			LOGGER.info("Cartao findById..: " + numeroCartao); 
 			Optional<Cartao> cartao = cartaoService.getCartao(numeroCartao);
 
 			return ResponseEntity.ok(cartao);
 		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartão não encontrado !!!", exc);
 		}
 	}
 
@@ -46,20 +47,24 @@ public class CartaoController {
 			LOGGER.info("Cartao .: " + cartao.getNumeroCartao() + " salvo com sucesso !!!");
 			return ResponseEntity.ok(cartao);
 		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartão não encontrado !!!", exc);
 		}
 
 	}
 
 	@PostMapping("/transacoes")
 	public ResponseEntity<?> transacao(@RequestBody Cartao cartao) {
+		TransactioMessageEnum transactioMessageEnum = null;
 		try {
 			LOGGER.info("Cartao transacao.: " + cartao.getNumeroCartao());
-			cartaoService.transacaoCartao(cartao);
+			transactioMessageEnum = cartaoService.transacaoCartao(cartao);
+			if (transactioMessageEnum != TransactioMessageEnum.OK) {
+				throw new RuntimeException();
+			}
 			LOGGER.info("Cartao .: " + cartao.getNumeroCartao() + " salvo com sucesso !!!");
 			return ResponseEntity.ok(cartao);
 		} catch (RuntimeException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Resource Not Found", exc);
+			throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, transactioMessageEnum.toString(), exc);
 		}
 	}
 }

@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.miniautorizador.exception.ResourceNotFoundException;
-import com.miniautorizador.exception.ValidationException;
 import com.miniautorizador.model.Cartao;
 import com.miniautorizador.model.TransactioMessageEnum;
 import com.miniautorizador.repository.CartaoRepository;
@@ -37,18 +35,20 @@ public class CatraoService {
 		transactioMessageEnum = cartaoSaldo.get().getSenhaCartao().equals(cartao.getSenhaCartao())
 				? TransactioMessageEnum.OK
 				: TransactioMessageEnum.SENHA_INVALIDA;
+		
+		transactioMessageEnum = verificaSaldo(cartaoSaldo.get(), cartao.getValor());
 
-		return transactioMessageEnum; 
+		return transactioMessageEnum;
 	}
 
 	private TransactioMessageEnum verificaSaldo(Cartao cartaoSaldo, BigDecimal valor) {
 		TransactioMessageEnum transactioMessageEnum = null;
 		BigDecimal saldoCartao = cartaoSaldo.getValor().subtract(valor);
 
-//		transactioMessageEnum = saldoCartao >= new BigDecimal("0") 
-//				? TransactioMessageEnum.OK
-//				: TransactioMessageEnum.SENHA_INVALIDA;
+		transactioMessageEnum = saldoCartao.compareTo(cartaoSaldo.getValor()) >= 0 
+				? TransactioMessageEnum.OK
+				: TransactioMessageEnum.SALDO_INSUFICIENTE;
 
-		return transactioMessageEnum.OK;
+		return transactioMessageEnum;
 	}
 }
