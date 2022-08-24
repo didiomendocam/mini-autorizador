@@ -38,7 +38,7 @@ public class CatraoService {
 				? TransactioMessageEnum.OK
 				: TransactioMessageEnum.SENHA_INVALIDA;
 
-		return transactioMessageEnum;
+		return transactioMessageEnum; 
 	}
 
 	private TransactioMessageEnum verificaSaldo(Cartao cartaoSaldo, BigDecimal valor) {
