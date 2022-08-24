@@ -42,13 +42,13 @@ public class CatraoService {
 	}
 
 	private TransactioMessageEnum verificaSaldo(Cartao cartaoSaldo, BigDecimal valor) {
-		TransactioMessageEnum transactioMessageEnum;
+		TransactioMessageEnum transactioMessageEnum = null;
 		BigDecimal saldoCartao = cartaoSaldo.getValor().subtract(valor);
 
-		transactioMessageEnum = saldoCartao >= new BigDecimal("0") 
-				? TransactioMessageEnum.OK
-				: TransactioMessageEnum.SENHA_INVALIDA;
+//		transactioMessageEnum = saldoCartao >= new BigDecimal("0") 
+//				? TransactioMessageEnum.OK
+//				: TransactioMessageEnum.SENHA_INVALIDA;
 
-		return transactioMessageEnum;
+		return transactioMessageEnum.OK;
 	}
 }
