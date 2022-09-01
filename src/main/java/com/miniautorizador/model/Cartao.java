@@ -1,5 +1,6 @@
 package com.miniautorizador.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
@@ -15,7 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Cartao {
+public class Cartao implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	Long numeroCartao;
 	String senhaCartao;
