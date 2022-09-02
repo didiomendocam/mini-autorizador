@@ -27,8 +27,8 @@ public class CartaoController {
 	@Autowired
 	private CatraoService cartaoService;
 
-	@GetMapping
-	public ResponseEntity<?> getCartao(@PathVariable("numeroCartao") Long numeroCartao) {
+	@GetMapping("/{numeroCartao}")
+	public ResponseEntity<?> getCartao(@PathVariable("numeroCartao") String numeroCartao) { 
 		try {
 			LOGGER.info("Cartao findById..: " + numeroCartao); 
 			Optional<Cartao> cartao = cartaoService.getCartao(numeroCartao);
@@ -49,7 +49,6 @@ public class CartaoController {
 		} catch (RuntimeException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cartão não encontrado !!!", exc);
 		}
-
 	}
 
 	@PostMapping("/transacoes")

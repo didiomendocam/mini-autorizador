@@ -6,11 +6,14 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Document(collection = "cartoes")
 @Entity
 @Data
 @AllArgsConstructor
@@ -21,7 +24,7 @@ public class Cartao implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	Long numeroCartao;
+	String numeroCartao;
 	String senhaCartao;
 	BigDecimal valor;
 }

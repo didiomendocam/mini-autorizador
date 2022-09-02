@@ -35,7 +35,7 @@ public class CartaoControllerTest {
     @DisplayName("Criar um novo cartão com limite de 500,00 reais.")
     public void save() throws Exception {
 		Cartao cartao = Cartao.builder()
-				.numeroCartao(1234L)
+				.numeroCartao("6549873025634501")
 				.senhaCartao("1234")
 				.build();
 
@@ -51,13 +51,13 @@ public class CartaoControllerTest {
     @DisplayName("Retornar um cartão")
     public void getCartao() throws Exception {
 		Optional<Cartao> cartao = Optional.of(Cartao.builder()
-				.numeroCartao(1234L)
+				.numeroCartao("6549873025634501")
 				.senhaCartao("1234")
 				.build());
         
         when(cartaoService.getCartao(cartao.get().getNumeroCartao())).thenReturn(cartao);
 
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH.concat(cartao.get().getNumeroCartao()))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -71,13 +71,13 @@ public class CartaoControllerTest {
     @DisplayName("Retornar um cartão indicando senha inválida")
     public void getCartaoComSenhaInvalida() throws Exception {
 		Optional<Cartao> cartao = Optional.of(Cartao.builder()
-				.numeroCartao(1234L)
+				.numeroCartao("6549873025634501")
 				.senhaCartao("1235")
 				.build());
         
         when(cartaoService.getCartao(cartao.get().getNumeroCartao())).thenReturn(cartao);
 
-        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH)
+        MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get(PATH.concat(cartao.get().getNumeroCartao()))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -90,7 +90,7 @@ public class CartaoControllerTest {
     @DisplayName("Realiza uma transação no cartão")
     public void transacao() throws Exception {
 		Optional<Cartao> cartao = Optional.of(Cartao.builder()
-				.numeroCartao(1234L)
+				.numeroCartao("1234")
 				.senhaCartao("1234")
 				.valor(new BigDecimal(100.00))
 				.build());

@@ -16,7 +16,7 @@ public class CatraoService {
 	@Autowired
 	private CartaoRepository cartaoRepository;
 
-	public Optional<Cartao> getCartao(Long numeroCartao) {
+	public Optional<Cartao> getCartao(String numeroCartao) {
 		return cartaoRepository.findById(numeroCartao);
 	}
 

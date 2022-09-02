@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.miniautorizador.model.Cartao;
 
 @Repository
-public interface CartaoRepository extends MongoRepository<Cartao, Long> {
+public interface CartaoRepository extends MongoRepository<Cartao, String> {
 
 }
